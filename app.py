@@ -7,10 +7,20 @@ from openai.error import OpenAIError
 from utils import (get_video_id, get_video_transcript,
                    get_embeddings, get_answer)
 load_dotenv()
-
 icon = Image.open("favicon.ico")
 st.set_page_config(page_title="YT-Chat - Chat with Youtube",
-                   page_icon=icon, layout="centered")
+                   page_icon=icon, layout="centered", menu_items=None)
+
+# Add custom CSS to hide the GitHub icon
+st.markdown(
+    """
+    <style>
+    .css-1jc7ptx, .e1ewe7hr3, .viewerBadge_container__1QSob, .styles_viewerBadge__1yB5_, .viewerBadge_link__1S137, .viewerBadge_text__1JaDK{ display: none; } #MainMenu{ visibility: hidden; } footer { visibility: hidden; } header { visibility: hidden; }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 centered_style = (
     "text-align: center;"
     "margin-top: -50px;"
@@ -108,7 +118,7 @@ def main():
             vector_store = st.session_state.embeddings
             if st.session_state.messages[-1]["role"] != "assistant":
                 with st.chat_message("assistant"):
-                    with st.spinner("Generating..."):
+                    with st.spinner("Generating response..."):
                         model_response = get_answer(
                             prompt,
                             vector_store,
@@ -118,7 +128,7 @@ def main():
                         )
                         if "error" in model_response.keys():
                             st.warning(
-                                response["error"])
+                                model_response["error"])
                             return
                         response = model_response["output_text"]
                         placeholder = st.empty()
@@ -131,7 +141,8 @@ def main():
                 st.session_state.messages.append(message)
 
     except Exception as e:
-        st.warning("Something went wrong. Please try again later.")
+        st.exception(e)
+        # st.warning("Something went wrong. Please try again later.")
         print(e)
 
 
