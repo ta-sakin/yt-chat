@@ -43,7 +43,6 @@ Sources:
 Answer:
 """
 
-
 DEFAULT_PROMPT = PromptTemplate(
     template=template, input_variables=["summaries", "question"]
 )
