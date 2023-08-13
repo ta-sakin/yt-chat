@@ -77,7 +77,6 @@ def get_answer(query, vectorstore, openai_api_key, transcript, model="gpt-3.5-tu
         answer = doc_chain(
             {"input_documents": texts, "question": query}, return_only_outputs=True
         )
-        print("answer", answer)
         return answer
     except Exception as e:
         print(f"Error: {e}")

@@ -116,6 +116,7 @@ def main():
             # if len(transcript.split(" ")) > 1000:
             #     transcript = ''
             vector_store = st.session_state.embeddings
+
             if st.session_state.messages[-1]["role"] != "assistant":
                 with st.chat_message("assistant"):
                     with st.spinner("Generating response..."):
