@@ -9,7 +9,7 @@ from utils import (get_video_id, get_video_transcript,
 load_dotenv()
 
 icon = Image.open("favicon.ico")
-st.set_page_config(page_title="YTChat - Chat with Youtube",
+st.set_page_config(page_title="YT-Chat - Chat with Youtube",
                    page_icon=icon, layout="centered")
 centered_style = (
     "text-align: center;"
