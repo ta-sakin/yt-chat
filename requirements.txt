@@ -4,4 +4,4 @@ langchain
 python-dotenv
 pillow
 pytube
-YouTubeTranscriptApi
+youtube-transcript-api
