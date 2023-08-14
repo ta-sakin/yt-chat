@@ -3,7 +3,6 @@ from dotenv import load_dotenv
 from PIL import Image
 import openai
 from openai.error import OpenAIError
-
 from utils import (get_video_id, get_video_transcript,
                    get_embeddings, get_answer)
 load_dotenv()
@@ -50,10 +49,11 @@ def main():
                 models = [
                     model['id'] for model in model_list['data']]
                 default_model = "gpt-3.5-turbo"
+                selected_model = st.sidebar.selectbox(
+                    "Choose a openai model", models, index=models.index(default_model))
             except OpenAIError as e:
                 st.error(e._message)
-            selected_model = st.sidebar.selectbox(
-                "Choose a openai model", models, index=models.index(default_model))
+                openai_api_key = None
 
         if "url" not in st.session_state.keys():
             st.session_state.url = False
@@ -70,7 +70,7 @@ def main():
             clear_chat()
         # get youtube video url
         url = st.text_input(
-            "Enter a youtube video url", placeholder="https://www.youtube.com/watch?v=V37eWVm-9BA", disabled=not openai_api_key, on_change=url_change)
+            "Enter a youtube video url", placeholder="https://www.youtube.com/watch?v=WnzlbyTZsQY", disabled=not openai_api_key, on_change=url_change)
         if url and not st.session_state.url:
             with st.spinner("Processing..."):
                 # check for valid url
@@ -91,7 +91,7 @@ def main():
                 if not st.session_state.embeddings:
                     # Store embeddings
                     vector_store = get_embeddings(
-                        transcript, openai_api_key)
+                        transcript, openai_api_key, video_id)
                     if "embeddings" in st.session_state.keys():
                         st.session_state.embeddings = vector_store
 
@@ -113,16 +113,14 @@ def main():
                     {"role": "user", "content": prompt})
                 with st.chat_message("user"):
                     st.write(prompt)
-            # if len(transcript.split(" ")) > 1000:
-            #     transcript = ''
-            vector_store = st.session_state.embeddings
 
+            vectorstore = st.session_state.embeddings
             if st.session_state.messages[-1]["role"] != "assistant":
                 with st.chat_message("assistant"):
                     with st.spinner("Generating response..."):
                         model_response = get_answer(
                             prompt,
-                            vector_store,
+                            vectorstore,
                             openai_api_key,
                             transcript='',
                             model=selected_model
@@ -142,8 +140,7 @@ def main():
                 st.session_state.messages.append(message)
 
     except Exception as e:
-        st.exception(e)
-        # st.warning("Something went wrong. Please try again later.")
+        # st.exception(e)
         print(e)
 
 
