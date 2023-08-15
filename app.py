@@ -38,7 +38,7 @@ def main():
         )
         if not openai_api_key:
             st.sidebar.warning(
-                "Please enter your OpenAI API Key to continue. We'll not store your API key.")
+                "Please enter your [OpenAI API Key](https://platform.openai.com/account/api-keys) to continue. We'll not store your API key.")
         elif openai_api_key and "sk" not in openai_api_key:
             st.sidebar.warning("Please enter a valid OpenAI API Key")
             openai_api_key = None
