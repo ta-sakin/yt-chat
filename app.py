@@ -2,7 +2,7 @@ import streamlit as st
 from dotenv import load_dotenv
 from PIL import Image
 import openai
-from openai.error import OpenAIError
+# from openai.error import OpenAIError
 from utils import (get_video_id, get_video_transcript,
                    get_embeddings, get_answer)
 load_dotenv()
@@ -51,7 +51,7 @@ def main():
                 default_model = "gpt-3.5-turbo"
                 selected_model = st.sidebar.selectbox(
                     "Choose a openai model", models, index=models.index(default_model))
-            except OpenAIError as e:
+            except Exception as e:
                 st.error(e._message)
                 openai_api_key = None
 

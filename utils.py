@@ -18,6 +18,7 @@ def get_video_id(url):
     except Exception as e:
         print(f"Error: {e}")
         return None
+
 # get transcript of the video
 
 

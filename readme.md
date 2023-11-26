@@ -4,7 +4,7 @@
 
 ## What is this?
 
-This is an Streamlit chatbot app that allows you to chat with any youtube videos using Openai's Chat API model. It uses **text-embedding-ada-002** model to generate embeddings and **FAISS** as vector database.
+This is a Streamlit chatbot app that allows you to chat with any youtube videos using Openai's Chat API model. It uses **text-embedding-ada-002** model to generate embeddings and **FAISS** as vector database.
 
 ## Usage
 
